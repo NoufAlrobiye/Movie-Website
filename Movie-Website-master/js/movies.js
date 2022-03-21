@@ -1,3 +1,4 @@
+
 console.log("here is movies");
 
 const moviesKey ="aa93ad635b1986680a6be8659849a0a2"
@@ -17,6 +18,8 @@ axios.get(`https://api.themoviedb.org/3/trending/all/day?api_key=${moviesKey}`)
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Details
 </button>
+<a class="nav-link" href="#"><i class="bi bi-bookmark-fill"></i></a>
+             <a class="nav-link" href="#"><i class="bi bi-heart-fill"></i></a>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -41,3 +44,56 @@ axios.get(`https://api.themoviedb.org/3/trending/all/day?api_key=${moviesKey}`)
         
         )
   })
+
+  //Get Movies
+  let actionCard = document.getElementById("Action");
+  MoviesCat(28,actionCard);
+
+  let Adventure = document.getElementById("Adventure")
+  MoviesCat(12,Adventure);
+
+  let ComedyCard = document.getElementById("Comedy")
+  MoviesCat(35,Comedy);
+
+  function MoviesCat (id,card){
+    axios
+    .get(`https://api.themoviedb.org/3/discover/movie?api_key=aa93ad635b1986680a6be8659849a0a2&with_genres=${id}`)
+    .then ((res)=> {console.log(res.data.results)
+
+      card.innerHTML = res.data.results.map(item=>
+        `
+        
+        <div class="col-md-3 col-sm-6 mt-3">
+        <div class="card my-3">
+           <img src=${imgPath+item.poster_path}>
+            <div class="card-body">
+              <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Details
+</button>
+<a class="nav-link" href="#"><i class="bi bi-bookmark-fill"></i></a>
+             <a class="nav-link" href="#"><i class="bi bi-heart-fill"></i></a>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+          </div>
+        </div>
+        `
+        ).join('')
+    })
+  }
